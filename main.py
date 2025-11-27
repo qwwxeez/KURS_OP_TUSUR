@@ -32,7 +32,6 @@ class AuthResponse(BaseModel):
 def create_user(user: User):
     os.makedirs('users', exist_ok=True)
 
-    # Проверяем что логин не занят
     for file in os.listdir("users"):
         if file.endswith(".json"):
             try:
@@ -49,7 +48,6 @@ def create_user(user: User):
                     detail="Ошибка чтения базы пользователей"
                 )
 
-    # Генерация токена
     user.id = int(time.time())
     user.token = str(random.getrandbits(128))
 

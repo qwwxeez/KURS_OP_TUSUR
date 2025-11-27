@@ -3,6 +3,17 @@ import re
 
 API_URL = "http://localhost:8000"
 
+def handle_error(response):
+    print(f"\nОшибка (код {response.status_code}):")
+
+    try:
+        data = response.json()
+        if "detail" in data:
+            print(data["detail"])
+        else:
+            print(data)
+    except ValueError:
+        print(response.text)
 
 
 def is_password_strong(password: str) -> bool:
@@ -53,7 +64,7 @@ def register():
         print("Регистрация успешна.")
         print("Токен:", data["token"])
     else:
-        print("Ошибка:",  response.text)
+        handle_error(response)
 
 
 def auth():
@@ -74,7 +85,8 @@ def auth():
         print("Авторизация успешна.")
         print("Токен:", data["token"])
     else:
-        print("Ошибка:",  response.text)
+        handle_error(response)
+
 
 def main_menu():
     while True:
